@@ -1,0 +1,23 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<p role="status">@arrStatus array: @nums</p>
+
+<button class="btn btn-primary" @onclick="SortArr">Sort Array</button>
+
+@code {
+    private string arrStatus = "Unsorted";
+    private int[] nums = { 5, 9, 1, 44, 4, 333, 2 };
+
+    private void SortArr()
+    {
+        arrStatus = "Sorted";
+        Array.Sort(nums);
+
+    }
+}
