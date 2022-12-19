@@ -1,20 +1,46 @@
 ﻿@page "/form"
+@using System;
+@using System.IO;
 
 <h1>Form</h1>
 
 <form>
-    <label for="fname">First name:</label><br>
-    <input type="text" id="fname" name="fname"><br>
-    <label for="lname">Last name:</label><br>
-    <input type="text" id="lname" name="lname">
+    <label>First name:</label><br>
+    <input type="text" @bind="_fname"><br>
+    <label>Last name:</label><br>
+    <input type="text" @bind="_lname">
 </form>
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" onclick="HandleFile(_path)">Click me</button>
+<p>first name: @_fname last name: @_lname</p>
 
 @code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
+    private string _fname { get; set; }
+    private string _lname { get; set; }
+
+    //private void HandleForm(){    }
+    string _path = @"c:\Users\Prazol\Desktop\modules\dotNET\Projects\MauiApp1\text.txt";
+
+    public static void HandleFile(string _path)
     {
-        currentCount++;
+        // This text is added only once to the file.
+        if (!File.Exists(_path))
+        {
+            // Create a file to write to.
+            string[] createText = { "Hello", "And", "Welcome" };
+            File.WriteAllLines(_path, createText);
+        }
+
+        // This text is always added, making the file longer over time
+        // if it is not deleted.
+        string appendText = "first name     last name" + Environment.NewLine;
+        File.AppendAllText(_path, appendText);
+
+        // Open the file to read from.
+        string[] readText = File.ReadAllLines(_path);
+        foreach (string s in readText)
+        {
+            Console.WriteLine(s);
+        }
     }
 }
